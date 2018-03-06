@@ -293,6 +293,7 @@ export default {
       const touch = e.touches[0]
       this.touch.startX = touch.pageX
       this.touch.startY = touch.pageY
+      this.touch.moved = false
     },
     middleTouchMove(e) {
       if (!this.touch.initiate) {
@@ -304,6 +305,9 @@ export default {
       if (Math.abs(deltaY) > Math.abs(deltaX)) {
         return
       }
+      if (!this.touch.moved) {
+        this.touch.moved = true
+      }
       const left = this.currentShow === 'cd' ? 0 : -window.innerWidth
       const offsetWidth = Math.min(0, Math.max(left + deltaX, -window.innerWidth))
       this.touch.percent = Math.abs(offsetWidth / window.innerWidth)
@@ -313,6 +317,9 @@ export default {
       this.$refs.middleL.style[transitionDuration] = 0
     },
     middleTouchEnd() {
+      if (!this.touch.moved) {
+        return
+      }
       let offsetWidth
       let opacity
       if (this.currentShow === 'cd') {

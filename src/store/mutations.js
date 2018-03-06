@@ -24,6 +24,9 @@ const mutations = {
   },
   [types.SET_CURRENT_SONGURL](state, url) {
     state.playlist[state.currentIndex].url = url
+  },
+  [types.SET_DISC](state, disc) {
+    state.disc = disc
   }
 }
 
