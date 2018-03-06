@@ -1,6 +1,6 @@
 # music
 
-> A Vue.js project
+> 黄轶老师vue-music项目
 
 ## Build Setup
 
