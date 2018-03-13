@@ -8,7 +8,6 @@
           @beforeScroll="listScroll"
   >
     <ul class="suggest-list">
-      <li class="suggest-item" v-for="(item, index) in result" :key="index" @click="selectItem(item)">
       <li class="suggest-item" @click="selectItem(item)" v-for="(item, index) in result" :key="index">
         <div class="icon">
           <i :class="getIconCls(item)"></i>
@@ -106,9 +105,6 @@ export default {
       } else {
         this.insertSong(item)
       }
-    },
-    listScroll() {
-      this.$emit('listScroll')
       this.$emit('select', item)
     },
     _checkMore(data) {
