@@ -43,3 +43,14 @@ export const searchMixin = {
     ])
   }
 }
+
+export const playerMixin = {
+  computed: {
+    ...mapGetters([
+      'sequenceList',
+      'playlist',
+      'currentSong',
+      'mode'
+    ])
+  }
+}
