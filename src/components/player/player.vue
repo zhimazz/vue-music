@@ -424,6 +424,9 @@ export default {
   },
   watch: {
     currentSong(newSong, oldSong) {
+      if (!newSong.id) {
+        return
+      }
       if (this.currentSong.url === '') {
         this._getSongUrl()
       }

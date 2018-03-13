@@ -18,7 +18,7 @@
               <span class="like">
                 <i></i>
               </span>
-              <span class="delete">
+              <span class="delete" @click.stop="deleteOne(item)">
                 <i class="icon-delete"></i>
               </span>
             </li>
@@ -43,7 +43,7 @@
 import {playMode} from 'common/js/config'
 import Scroll from 'base/scroll/scroll'
 import {playerMixin} from 'common/js/mixin'
-import {mapMutations} from 'vuex'
+import {mapMutations, mapActions} from 'vuex'
 
 export default {
   mixins: [playerMixin],
@@ -84,10 +84,19 @@ export default {
       })
       this.$refs.listContent.scrollToElement(this.$refs.list.$el.children[index], 300)
     },
+    deleteOne(item) {
+      this.deleteSong(item)
+      if (!this.playlist.length) {
+        this.hide()
+      }
+    },
     ...mapMutations({
       setCurrentIndex: 'SET_CURRENT_INDEX',
       setPlayingState: 'SET_PLAYING_STATE'
-    })
+    }),
+    ...mapActions([
+      'deleteSong'
+    ])
   },
   components: {
     Scroll
