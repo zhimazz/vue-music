@@ -9,6 +9,7 @@
   >
     <ul class="suggest-list">
       <li class="suggest-item" v-for="(item, index) in result" :key="index" @click="selectItem(item)">
+      <li class="suggest-item" @click="selectItem(item)" v-for="(item, index) in result" :key="index">
         <div class="icon">
           <i :class="getIconCls(item)"></i>
         </div>
@@ -30,9 +31,9 @@ import {ERR_OK} from 'api/config'
 import {createSong} from 'common/js/song'
 import Scroll from 'base/scroll/scroll'
 import Loading from 'base/loading/loading'
-import Singer from 'common/js/singer'
-import {mapMutations, mapActions} from 'vuex'
 import NoResult from 'base/no-result/no-result'
+import Singer from 'common/js/singer'
+import { mapMutations, mapActions } from 'vuex'
 
 const TYPE_SINGER = 'singer'
 const perpage = 20
@@ -63,6 +64,9 @@ export default {
     }
   },
   methods: {
+    refresh() {
+      this.$refs.suggest.refresh()
+    },
     search(query) {
       this.page = 1
       this.hasMore = true
@@ -86,6 +90,9 @@ export default {
         }
       })
     },
+    listScroll() {
+      this.$emit('listScroll')
+    },
     selectItem(item) {
       if (item.type === TYPE_SINGER) {
         const singer = new Singer({
@@ -102,6 +109,7 @@ export default {
     },
     listScroll() {
       this.$emit('listScroll')
+      this.$emit('select', item)
     },
     _checkMore(data) {
       const song = data.song
@@ -112,7 +120,7 @@ export default {
     _genResult(data) {
       let ret = []
       if (data.zhida && data.zhida.singerid && this.page === 1) {
-        ret.push({...data.zhida, ...{type: TYPE_SINGER}})
+        ret.push({...data.zhida, type: TYPE_SINGER})
       }
       if (data.song) {
         ret = ret.concat(this._normalizeSongs(data.song.list))

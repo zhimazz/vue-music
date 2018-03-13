@@ -1,4 +1,4 @@
-import {mapGetters} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 
 export const playlistMixin = {
   computed: {
@@ -21,5 +21,25 @@ export const playlistMixin = {
     handlePlaylist() {
       throw new Error('component must implement handlePlaylist method')
     }
+  }
+}
+
+export const searchMixin = {
+  methods: {
+    blurInput() {
+      this.$refs.searchBox.blur()
+    },
+    saveSearch() {
+      this.saveSearchHistory(this.query)
+    },
+    ...mapActions([
+      'saveSearchHistory',
+      'deleteSearchHistory'
+    ])
+  },
+  computed: {
+    ...mapGetters([
+      'searchHistory'
+    ])
   }
 }
