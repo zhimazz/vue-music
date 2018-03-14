@@ -11,7 +11,9 @@ const state = {
   currentIndex: -1,
   disc: {},
   topList: {},
-  searchHistory: localSearch()
+  searchHistory: localSearch(),
+  playHistory: [],
+  favoriteList: []
 }
 
 export default state

@@ -61,8 +61,7 @@ export default {
   },
   data() {
     return {
-      hotKey: [],
-      query: ''
+      hotKey: []
     }
   },
   created() {
@@ -80,12 +79,6 @@ export default {
   methods: {
     addQuery(query) {
       this.$refs.searchBox.setQuery(query)
-    },
-    onQueryChange(query) {
-      this.query = query
-    },
-    blurInput() {
-      this.$refs.searchBox.blur()
     },
     showConfirm() {
       this.$refs.confirm.show()
