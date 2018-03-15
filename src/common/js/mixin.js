@@ -29,10 +29,14 @@ export const playlistMixin = {
 export const searchMixin = {
   data() {
     return {
-      query: ''
+      query: '',
+      refreshDelay: 120
     }
   },
   methods: {
+    addQuery(query) {
+      this.$refs.searchBox.setQuery(query)
+    },
     blurInput() {
       this.$refs.searchBox.blur()
     },
