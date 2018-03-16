@@ -11,13 +11,10 @@ const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
 
 const axios = require('axios')
-const express = require('express')
+const bodyParser = require('body-parser')
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
 
-const app = express()
-var apiRoutes = express.Router()
-app.use('/api', apiRoutes)
 
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -50,6 +47,8 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       poll: config.dev.poll,
     },
     before: app => {
+      app.use(bodyParser.urlencoded({extended: true}))
+
       app.get('/api/getDiscList', (req, res) => {
         var url = 'https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg'
         axios.get(url, {
@@ -60,13 +59,6 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           params: req.query
         }).then(response => {
           var ret = response.data
-          // if (typeof ret === 'string') {
-          //   var reg = /^\w+\(({[^()]+})\)$/
-          //   var matches = ret.match(reg)
-          //   if (matches) {
-          //     res.json(matches[1])
-          //   }
-          // }
           res.json(ret)
         }).catch(error => {
           console.log(error)
@@ -83,7 +75,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         }).then((response) => {
           var ret = response.data
           if (typeof ret === 'string') {
-            var reg = /^\w+\(({[^()]+})\)$/
+            var reg = /^\w+\(({.+})\)$/
             var matches = ret.match(reg)
             if (matches) {
               ret = JSON.parse(matches[1])
@@ -94,26 +86,19 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           console.log(error)
         })
       }),
-      app.get('/api/getSongList', (req, res) => {
-        var url = 'https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg'
-        axios.get(url, {
+
+      app.post('/api/getPurlUrl', bodyParser.json(), function (req, res) {
+        const url = 'https://u.y.qq.com/cgi-bin/musicu.fcg'
+        axios.post(url, req.body, {
           headers: {
-            referer: 'https://y.qq.com/w/taoge.html',
-            host: 'c.y.qq.com'
-          },
-          params: req.query
-        }).then(response => {
-          var ret = response.data
-          if (typeof ret === 'string') {
-            var reg = /^\w+\(({[\w\W]*})\)$/
-            var matches = ret.match(reg)
-            if (matches) {
-              ret = JSON.parse(matches[1])
-            }
+            referer: 'https://y.qq.com/',
+            origin: 'https://y.qq.com',
+            'Content-type': 'application/x-www-form-urlencoded'
           }
-          res.json(ret)
-        }).catch(error => {
-          console.log(error)
+        }).then((response) => {
+          res.json(response.data)
+        }).catch((e) => {
+          console.log(e)
         })
       })
     }

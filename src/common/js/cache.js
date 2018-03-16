@@ -66,6 +66,10 @@ export function savePlay(song) {
   return songs
 }
 
+export function loadPlay() {
+  return storage.get(PLAY_KEY, [])
+}
+
 export function saveFavorite(song) {
   let songs = storage.get(FAVORITE_KEY, [])
   insertArray(songs, song, (item) => {
@@ -82,4 +86,8 @@ export function deleteFavorite(song) {
   })
   storage.set(FAVORITE_KEY, songs)
   return songs
+}
+
+export function loadFavorite() {
+  return storage.get(FAVORITE_KEY, [])
 }

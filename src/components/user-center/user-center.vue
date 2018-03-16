@@ -12,7 +12,7 @@
         <span class="text">随机播放全部</span>
       </div>
       <div class="list-wrapper" ref="listWrapper">
-        <!-- <scroll ref="favoriteList" class="list-scroll" v-if="currentIndex===0" :data="favoriteList">
+        <scroll ref="favoriteList" class="list-scroll" v-if="currentIndex===0" :data="favoriteList">
           <div class="list-inner">
             <song-list :songs="favoriteList" @select="selectSong"></song-list>
           </div>
@@ -21,7 +21,7 @@
           <div class="list-inner">
             <song-list :songs="playHistory" @select="selectSong"></song-list>
           </div>
-        </scroll> -->
+        </scroll>
       </div>
       <div class="no-result-wrapper" v-show="noResult">
         <no-result :title="noResultDesc"></no-result>
@@ -77,8 +77,8 @@ export default {
     handlePlaylist(playlist) {
       const bottom = playlist.length > 0 ? '60px' : ''
       this.$refs.listWrapper.style.bottom = bottom
-      // this.$refs.favoriteList && this.$refs.favoriteList.refresh()
-      // this.$refs.playList && this.$refs.playList.refresh()
+      this.$refs.favoriteList && this.$refs.favoriteList.refresh()
+      this.$refs.playList && this.$refs.playList.refresh()
     },
     switchItem(index) {
       this.currentIndex = index
