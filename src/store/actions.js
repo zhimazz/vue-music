@@ -120,7 +120,7 @@ export const deleteSongList = function({commit}) {
   commit(types.SET_PLAYING_STATE, false)
 }
 
-export const savePlayHistroy = function({commit}, song) {
+export const savePlayHistory = function({commit}, song) {
   commit(types.SET_PLAY_HISTORY, savePlay(song))
 }
 

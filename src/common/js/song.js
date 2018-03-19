@@ -1,4 +1,4 @@
-import {getLyric, getVKey, getSongsUrl} from 'api/song'
+import {getLyric, getSongsUrl} from 'api/song'
 import {ERR_OK} from 'api/config'
 import {Base64} from 'js-base64'
 
@@ -26,7 +26,8 @@ export default class Song {
           resolve(this.lyric)
         }
       }).catch((error) => {
-        reject('no lyric')
+        console.log(error.stack)
+        reject(new Error('no lyric'))
       })
     })
   }
